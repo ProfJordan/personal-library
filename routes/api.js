@@ -103,9 +103,15 @@ res.json({
     }
     })
     
-    .delete(function(req, res){
-      let bookid = req.params.id;
+    .delete(async (req, res) => {
+      let bookID = req.params.id;
       //if successful response will be 'delete successful'
-    });
-  
-};
+      try {
+        const deleted = await Book.findByIdAndDelete(bookID);
+        console.log("deleted :>> ", deleted);
+        if (!deleted) throw new Error("No book found");
+      } catch (err) {
+          res.send('no book exists');
+        }
+      });
+      };
